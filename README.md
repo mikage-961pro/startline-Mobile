@@ -8,6 +8,3 @@ The original can be downloaded from the following git.
 
 https://github.com/miyacorata/startline
 
-
-
--
