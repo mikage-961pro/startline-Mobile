@@ -1,0 +1,133 @@
+
+DirectoryIndex index.html index.cgi index.php .ht
+RewriteCond %{THE_REQUEST} ^.*/index\.php
+RewriteRule (.*)index\.php$ https://%{HTTP_HOST}/$1 [R=301,L]
+RewriteCond %{THE_REQUEST} ^.*/index\.html
+RewriteRule (.*)index\.html$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.htm -f
+RewriteRule ^(.*)$ $1.htm
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.zip -f
+RewriteRule ^(.*)$ $1.zip
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.mov -f
+RewriteRule ^(.*)$ $1.mov
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.mp4 -f
+RewriteRule ^(.*)$ $1.mp4
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.webm -f
+RewriteRule ^(.*)$ $1.webm
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.png -f
+RewriteRule ^(.*)$ $1.png
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.jpg -f
+RewriteRule ^(.*)$ $1.jpg
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.gif -f
+RewriteRule ^(.*)$ $1.gif
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.css -f
+RewriteRule ^(.*)$ $1.css
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.js -f
+RewriteRule ^(.*)$ $1.js
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.mp3 -f
+RewriteRule ^(.*)$ $1.mp3
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.pdf -f
+RewriteRule ^(.*)$ $1.pdf
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.mobileconfig -f
+RewriteRule ^(.*)$ $1.mobileconfig
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+
+
+ErrorDocument 404 /index
+ErrorDocument 403 /arr/404
+ErrorDocument 503 /arr/503
+
+
+Header set Access-Control-Allow-Origin: https://weathernews.jp
+Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
+Header set Access-Control-Allow-Credentials: true
+
+#//AddType image/xicon .ico
+#//＜Files favicon.ico＞
+#//ErrorDocument 404 https://nicovideo.jp/icon.png
+#//＜/Files＞
+
+order allow,deny
+allow from all
+deny from 46.166.136.0/21
+deny from 146.0.75.0/24
+deny from 178.62.128.0/17
+deny from .us.archive.org
+
+RewriteEngine on
+RewriteRule ^/post\-([0-9]{4})\.html$ /pi.php?id=$1 [L]
+
+
+SetEnvIf REQUEST_URI "robots.txt$" robots_txt
+
+# reject megalodon
+SetEnvIf User-Agent "megalodon"                deny_ok_robots
+SetEnvIf Remote_Host "(\.sakura\.ne\.jp)$"  deny_ok_robots
+# [end] reject megalodon
+
+SetEnvIf deny_ok_robots "1"   deny_flag
+SetEnvIf robots_txt         "1"  !deny_flag
+
+RewriteCond "%{ENV:deny_ok_robots}" "1"
+RewriteRule "robots.txt$"  robots_deny_all.txt [L]
+
+Deny from env=deny_flag
+
+order deny,allow
+deny from all
+allow from .saintmedia.co.jp
+
+order deny,allow
+deny from all
+allow from .youtube-nocookie.com
+
+order deny,allow
+deny from all
+allow from www.youtube-nocookie.com
